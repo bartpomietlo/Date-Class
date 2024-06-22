@@ -29,7 +29,7 @@ public:
 
 	int days() const;
 	static bool is_leap(short int year);
-
+	static Date today();
 	int operator-(const Date& other) const;
 	Date& operator+=(int daysToAdd);
 	int suma() const;

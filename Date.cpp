@@ -1,5 +1,7 @@
 #include "Date.h"
 
+#include <iomanip>
+
 
 short int check(short int value, short int current, short int valid) {
 	if (value > 0 && value <=valid) {
@@ -83,13 +85,21 @@ std::istream& operator>>(std::istream& in, Date& c) {
 	in >> c.day >> c.month >> c.year;
 	return in;
 }
-
+Date Date:: today() {
+	std::time_t now = std::time(0);
+	std::tm localt;
+	localtime_s(&localt,&now);
+	short int tday = localt.tm_mday;
+	short int tmonth = localt.tm_mon;
+	short int tyear = 1900 + localt.tm_year;
+	return Date(tday, tmonth, tyear);
+}
 int Date::operator-(const Date& other) const {
 	return std::abs(this->suma() - other.suma()+1);
 }
 Date& Date::operator+=(int daysToAdd) {
     while (daysToAdd > 0) {
-        int daysInMonth = months[month - 1];
+        short int daysInMonth = months[month - 1];
         if (month == 2 && is_leap(year)) {
             daysInMonth = 29;
         }
